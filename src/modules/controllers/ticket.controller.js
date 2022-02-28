@@ -31,6 +31,19 @@ module.exports.getAllTickets = (req, res, next) => {
 		});
 };
 
+module.exports.deleteTicket = (req, res, next) => {
+	const query = req.query;
+	if (query.hasOwnProperty("id") && query.id.trim().length) {
+		const id = req.query.id;
+		Ticket.deleteOne({ _id: id }).then((result) => {
+			return res.send(result);
+		})
+			.catch((err) => {
+				return res.status(422).send(err);
+			});
+	} else return res.status(422).send("No valid ID!");
+};
+
 module.exports.allUserSpending = (req, res, next) => {
 	Ticket.aggregate([{ $group: { _id: null, total: { $sum: "$cost" } } }])
 		.then((result) => {

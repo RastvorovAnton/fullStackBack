@@ -31,6 +31,44 @@ module.exports.getAllTickets = (req, res, next) => {
 		});
 };
 
+module.exports.deleteTicket = (req, res, next) => {
+	const query = req.query;
+	if (query.hasOwnProperty("id") && query.id.trim().length) {
+		const id = req.query.id;
+		Ticket.deleteOne({ _id: id }).then((result) => {
+			return res.send(result);
+		})
+			.catch((err) => {
+				return res.status(422).send(err);
+			});
+	} else return res.status(422).send("No valid ID!");
+};
+
+module.exports.updateTicket = (req, res, next) => {
+	const body = req.body;
+	const { id, text, cost, date } = body;
+	let sendObj = {};
+	if (body.hasOwnProperty("id")) {
+		if (body.hasOwnProperty("text") && text.trim().length) {
+			sendObj.text = text.trim();
+		}
+		if (body.hasOwnProperty("cost") && +cost) {
+			sendObj.cost = +cost;
+		}
+		if (body.hasOwnProperty("date") && date.trim().length) {
+			sendObj.date = date;
+		}
+		if (Object.keys(sendObj).length !== 0) {
+			Ticket.updateOne({ _id: id }, sendObj).then((result) => {
+				return res.send(result);
+			})
+				.catch((err) => {
+					return res.send(err);
+				});
+		} else return res.status(422).send("No valid data!");
+	} else return res.status(422).send("No ID!");
+};
+
 module.exports.allUserSpending = (req, res, next) => {
 	Ticket.aggregate([{ $group: { _id: null, total: { $sum: "$cost" } } }])
 		.then((result) => {

@@ -102,3 +102,5 @@ dist
 
 # TernJS port file
 .tern-port
+src/modules/controllers/ticket.controller.js
+src/modules/routes/routes.js

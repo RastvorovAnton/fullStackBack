@@ -17,9 +17,20 @@ module.exports.addNewTicket = (req, res, next) => {
 			.catch((err) => {
 				return res.send("Error!");
 			});
-	} else
+
+module.exports.deleteTicket = (req, res, next) => {
+	const query = req.query;
+	if (query.hasOwnProperty("id") && query.id.trim().length) {
+		const id = req.query.id;
+		Ticket.deleteOne({ _id: id }).then((result) => {
+			return res.send(result);
+		})
+			.catch((err) => {
+				res.status(422).send("Error!");
+			});
+		} else
 		res.status(422).send("Some fields are missing or not valid!(text or cost)");
-};
+	};
 
 module.exports.getAllTickets = (req, res, next) => {
 	Ticket.find().then((result) => {

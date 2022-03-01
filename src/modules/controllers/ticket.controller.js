@@ -24,7 +24,7 @@ module.exports.addNewTicket = (req, res, next) => {
 module.exports.getAllTickets = (req, res, next) => {
 	Ticket.find()
 		.then((result) => {
-			res.send({ data: result });
+			res.send(result);
 		})
 		.catch((err) => {
 			res.status(422).send("Error!");

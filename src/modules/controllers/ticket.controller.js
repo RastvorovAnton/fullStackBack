@@ -17,8 +17,6 @@ module.exports.addNewTicket = (req, res, next) => {
 			.catch((err) => {
 				return res.send("Error!");
 			});
-	} else res.status(422).send("Some fields are missing or not valid!(text or cost)");
-};
 
 module.exports.deleteTicket = (req, res, next) => {
 	const query = req.query;
@@ -31,6 +29,11 @@ module.exports.deleteTicket = (req, res, next) => {
 				res.status(422).send("Error!");
 			});
 	} else res.status(422).send("No valid ID!");
+
+=======
+	} else
+		res.status(422).send("Some fields are missing or not valid!(text or cost)");
+};
 
 module.exports.getAllTickets = (req, res, next) => {
 	Ticket.find().then((result) => {

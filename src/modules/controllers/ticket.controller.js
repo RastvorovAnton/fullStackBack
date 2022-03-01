@@ -77,6 +77,6 @@ module.exports.allUserSpending = (req, res, next) => {
 			res.send(result.length ? result[0] : { total: 0 });
 		})
 		.catch((err) => {
-			res.status(422).send(err);
+			res.status(422).send("Error!");
 		});
 };

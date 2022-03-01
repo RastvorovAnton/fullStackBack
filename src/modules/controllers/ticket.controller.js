@@ -17,20 +17,21 @@ module.exports.addNewTicket = (req, res, next) => {
 			.catch((err) => {
 				res.send("Error!");
 			});
-   } else res.status(422).send("Some fields are missing or not valid!(text or cost)");
-  };
+	} else res.status(422).send("Some fields are missing or not valid!(text or cost)");
+};
 
 module.exports.deleteTicket = (req, res, next) => {
 	const query = req.query;
 	if (query.hasOwnProperty("id") && query.id.trim().length) {
 		const id = req.query.id;
 		Ticket.deleteOne({ _id: id }).then((result) => {
-			res.send(result);
+			return res.send(result);
 		})
 			.catch((err) => {
 				res.status(422).send("Error!");
 			});
-	} else res.status(422).send("No valid ID!");
+	} else
+		res.status(422).send("Some fields are missing or not valid!(text or cost)");
 };
 
 module.exports.updateTicket = (req, res, next) => {
@@ -54,8 +55,10 @@ module.exports.updateTicket = (req, res, next) => {
 				.catch((err) => {
 					res.send("Error!");
 				});
-		} else res.status(422).send("No valid data!");
-	} else res.status(422).send("No ID!");
+		} else
+		res.status(422).send("Some fields are missing or not valid!(text or cost)");
+};
+
 
 module.exports.getAllTickets = (req, res, next) => {
 	Ticket.find().then((result) => {
